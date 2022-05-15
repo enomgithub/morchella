@@ -18,7 +18,7 @@ const typeToUniformProc = {
 }.toTable()
 
 
-proc vertexShaderBasic*(
+proc vertexShaderBasic(
   gl_Position: var Vec4,
   position: Vec2
 ) =
