@@ -10,7 +10,7 @@ import staticglfw
 import vmath
 
 
-const typeToUniformProc* = {
+const typeToUniformProc = {
   "float32": glUniform1fv,
   "Vec2": glUniform2fv,
   "Vec3": glUniform3fv,
@@ -213,8 +213,7 @@ proc render*(
   program: GLuint,
   resolution: array[0..1, float32],
   uniformNameToPtr: Table[string, ptr float32],
-  typeToUniformProc: Table[string, proc],
-  uniformLocations: seq[(string, string, GLuint)],
+  uniformLocations: seq[(string, string, GLuint)]
 ) =
   glViewport(0, 0, resolution[0].GLsizei(), resolution[1].GLsizei())
   glClearColor(0, 0, 0, 1)
