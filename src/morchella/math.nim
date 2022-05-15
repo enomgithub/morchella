@@ -6,10 +6,24 @@ import vmath
 proc atan*(a, b: float32): float32 {.importc: "atanf", header: "<math.h>".}
 
 
+proc asin*(a, b: float32): float32 {.importc: "asinf", header: "<math.h>".}
+
+
+proc acos*(a, b: float32): float32 {.importc: "acosf", header: "<math.h>".}
+
+
 # Nim has math.log, but it has two arguments x: float32, base: T.
 # It is difference from GLSL's log function.
 # So we have to define it for using in fragment shader procs.
 proc log*(x: float32): float32 {.importc: "logf", header: "<math.h>".}
+
+
+proc cross*(a, b: Vec3): Vec3 =
+  return vec3(
+    a.y * b.z - b.y * a.z,
+    a.z * b.x - b.z * a.x,
+    a.x * b.y - b.x * a.y
+  )
 
 
 proc smin*(d1, d2, k: float32): float32 =
@@ -23,6 +37,10 @@ proc `mod`*(a, b: float32): float32 =
 
 proc `mod`*(a, b: Vec2): Vec2 =
   return vec2(a.x mod b.x, a.y mod b.y)
+
+
+proc `mod`*(a, b: Vec3): Vec3 =
+  return vec3(a.x mod b.x, a.y mod b.y, a.z mod b.z)
 
 
 proc smoothstep*(e1, e2, x: float32): float32 =
