@@ -51,7 +51,6 @@ proc hexagonalPattern(gl_FragCoord: Vec4, resolution: Uniform[Vec2], time: Unifo
 proc renderHexagonalPattern(
   window: Window,
   program: GLuint,
-  typeToUniformProc: Table[string, proc],
   uniformLocations: seq[(string, string, GLuint)],
   startTime: float32
 ) =
@@ -69,7 +68,6 @@ proc renderHexagonalPattern(
     program,
     resolution,
     uniformNameToPtr,
-    typeToUniformProc,
     uniformLocations
   )
 
@@ -91,7 +89,7 @@ proc play() =
   echo "Initialize done."
 
   while window.windowShouldClose() == 0:
-    renderHexagonalPattern(window, program, typeToUniformProc, uniformLocations, startTime)
+    renderHexagonalPattern(window, program, uniformLocations, startTime)
     pollEvents()
 
 

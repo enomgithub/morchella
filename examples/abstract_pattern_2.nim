@@ -32,7 +32,6 @@ proc fragmentShaderAbstractPattern2Proc(
 proc renderAbstractPattern1(
   window: Window,
   program: GLuint,
-  typeToUniformProc: Table[string, proc],
   uniformLocations: seq[(string, string, GLuint)],
   startTime: float32
 ) =
@@ -50,7 +49,6 @@ proc renderAbstractPattern1(
     program,
     resolution,
     uniformNameToPtr,
-    typeToUniformProc,
     uniformLocations
   )
 
@@ -72,7 +70,7 @@ proc play(): int =
   echo "Initialize done."
 
   while window.windowShouldClose() == 0:
-    renderAbstractPattern1(window, program, typeToUniformProc, uniformLocations, startTime)
+    renderAbstractPattern1(window, program, uniformLocations, startTime)
     pollEvents()
   
   return 0

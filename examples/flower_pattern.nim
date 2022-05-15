@@ -69,7 +69,6 @@ proc getFrequency(): array[0..2, float32] =
 proc renderFlowerPattern(
   window: Window,
   program: GLuint,
-  typeToUniformProc: Table[string,proc],
   uniformLocations: seq[(string, string, GLuint)],
   startTime: float32
 ) =
@@ -93,7 +92,6 @@ proc renderFlowerPattern(
     program,
     resolution,
     uniformNameToPtr,
-    typeToUniformProc,
     uniformLocations
   )
 
@@ -115,7 +113,7 @@ proc main() =
   echo "Initialize done."
 
   while window.windowShouldClose() == 0:
-    renderFlowerPattern(window, program, typeToUniformProc, uniformLocations, startTime)
+    renderFlowerPattern(window, program, uniformLocations, startTime)
     pollEvents()
 
 
