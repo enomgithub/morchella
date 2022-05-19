@@ -1,4 +1,5 @@
 import std/macros
+import std/options
 import std/sequtils
 import std/sugar
 import std/tables
@@ -10,12 +11,34 @@ import staticglfw
 import vmath
 
 
-const typeToUniformProc = {
-  "float32": glUniform1fv,
-  "Vec2": glUniform2fv,
-  "Vec3": glUniform3fv,
-  "Vec4": glUniform4fv
-}.toTable()
+const
+  dTypeToUniformProc = {
+    "float64": glUniform1dv,
+    "Dvec2": glUniform2dv,
+    "Dvec3": glUniform3dv,
+    "Dvec4": glUniform4dv
+  }.toTable()
+
+  fTypeToUniformProc = {
+    "float32": glUniform1fv,
+    "Vec2": glUniform2fv,
+    "Vec3": glUniform3fv,
+    "Vec4": glUniform4fv
+  }.toTable()
+
+  iTypeToUniformProc = {
+    "int32": glUniform1iv,
+    "Ivec2": glUniform2iv,
+    "Ivec3": glUniform3iv,
+    "Ivec4": glUniform4iv
+  }.toTable()
+
+  uTypeToUniformProc = {
+    "uint32": glUniform1uiv,
+    "Uvec2": glUniform2uiv,
+    "Uvec3": glUniform3uiv,
+    "Uvec4": glUniform4uiv
+  }.toTable()
 
 
 proc vertexShaderBasic(
@@ -212,7 +235,10 @@ proc render*(
   window: Window,
   program: GLuint,
   resolution: array[0..1, float32],
-  uniformNameToPtr: Table[string, ptr float32],
+  dUniformNameToPtr: Option[Table[string, ptr float64]] = none(Table[string, ptr float64]),
+  fUniformNameToPtr: Option[Table[string, ptr float32]] = none(Table[string, ptr float32]),
+  iUniformNameToPtr: Option[Table[string, ptr int32]] = none(Table[string, ptr int32]),
+  uUniformNameToPtr: Option[Table[string, ptr uint32]] = none(Table[string, ptr uint32]),
   uniformLocations: seq[(string, string, GLuint)]
 ) =
   glViewport(0, 0, resolution[0].GLsizei(), resolution[1].GLsizei())
@@ -222,13 +248,50 @@ proc render*(
   glUseProgram(program)
 
   for (uniformName, uniformType, uniformLocation) in uniformLocations:
-    let uniformProc = typeToUniformProc.getOrDefault(uniformType, nil)
-    assert not uniformProc.isNil()
+    let
+      dUniformProc = dTypeToUniformProc.getOrDefault(uniformType, nil)
+      fUniformProc = fTypeToUniformProc.getOrDefault(uniformType, nil)
+      iUniformProc = iTypeToUniformProc.getOrDefault(uniformType, nil)
+      uUniformProc = uTypeToUniformProc.getOrDefault(uniformType, nil)
 
-    let uniformValuePtr = uniformNameToPtr.getOrDefault(uniformName, nil)
-    assert not uniformValuePtr.isNil()
+    if not dUniformProc.isNil():
+      let dUniformValuePtr = 
+        if dUniformNameToPtr.isSome():
+          dUniformNameToPtr.get().getOrDefault(uniformName, nil)
+        else: nil
+      assert not dUniformValuePtr.isNil()
+      dUniformProc(uniformLocation.GLint, 1, dUniformValuePtr)
+      continue
 
-    uniformProc(uniformLocation.GLint, 1, uniformValuePtr)
+    if not fUniformProc.isNil():
+      let fUniformValuePtr =
+        if fUniformNameToPtr.isSome():
+          fUniformNameToPtr.get().getOrDefault(uniformName, nil)
+        else: nil
+      assert not fUniformValuePtr.isNil()
+      fUniformProc(uniformLocation.GLint, 1, fUniformValuePtr)
+      continue
+
+    if not iUniformProc.isNil():
+      let iUniformValuePtr =
+        if iUniformNameToPtr.isSome():
+          iUniformNameToPtr.get().getOrDefault(uniformName, nil)
+        else: nil
+      assert not iUniformValuePtr.isNil()
+      iUniformProc(uniformLocation.GLint, 1, iUniformValuePtr)
+      continue
+
+    if not uUniformProc.isNil():
+      let uUniformValuePtr =
+        if uUniformNameToPtr.isSome():
+          uUniformNameToPtr.get().getOrDefault(uniformName, nil)
+        else: nil
+      assert not uUniformValuePtr.isNil()
+      uUniformProc(uniformLocation.GLint, 1, uUniformValuePtr)
+      continue
+
+    raise newException(ValueError, "")
+
   glDrawArrays(GL_TRIANGLES, 0, 6)
 
   window.swapBuffers()
