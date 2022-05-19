@@ -1,3 +1,4 @@
+import std/options
 import std/tables
 
 import opengl
@@ -79,7 +80,7 @@ proc renderFlowerPattern(
     frequency = getFrequency()
     time = getTime(startTime)
 
-  let uniformNameToPtr = {
+  let fUniformNameToPtr = {
     "resolution": resolution[0].addr(),
     "amplitude": amplitude[0].addr(),
     "phase": phase[0].addr(),
@@ -91,8 +92,8 @@ proc renderFlowerPattern(
     window,
     program,
     resolution,
-    uniformNameToPtr,
-    uniformLocations
+    fUniformNameToPtr = some(fUniformNameToPtr),
+    uniformLocations = uniformLocations
   )
 
 

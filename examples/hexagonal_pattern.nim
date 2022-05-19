@@ -1,3 +1,4 @@
+import std/options
 import std/tables
 
 import opengl
@@ -58,7 +59,7 @@ proc renderHexagonalPattern(
     resolution = window.getResolution()
     time = getTime(startTime)
 
-  let uniformNameToPtr = {
+  let fUniformNameToPtr = {
     "resolution": resolution[0].addr(),
     "time": time.addr()
   }.toTable()
@@ -67,8 +68,8 @@ proc renderHexagonalPattern(
     window,
     program,
     resolution,
-    uniformNameToPtr,
-    uniformLocations
+    fUniformNameToPtr = some(fUniformNameToPtr),
+    uniformLocations = uniformLocations
   )
 
 

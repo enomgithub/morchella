@@ -1,4 +1,4 @@
-import std/sequtils
+import std/options
 import std/tables
 
 import opengl
@@ -7,7 +7,6 @@ import staticglfw
 import vmath
 
 import morchella
-import morchella/math
 
 
 proc fragmentShaderAbstractPattern2Proc(
@@ -39,7 +38,7 @@ proc renderAbstractPattern1(
     resolution = window.getResolution()
     time = getTime(startTime)
 
-  let uniformNameToPtr = {
+  let fUniformNameToPtr = {
     "resolution": resolution[0].addr(),
     "time": time.addr()
   }.toTable()
@@ -48,8 +47,8 @@ proc renderAbstractPattern1(
     window,
     program,
     resolution,
-    uniformNameToPtr,
-    uniformLocations
+    fUniformNameToPtr = some(fUniformNameToPtr),
+    uniformLocations = uniformLocations
   )
 
 
