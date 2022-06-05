@@ -19,7 +19,6 @@ proc rot(angle: float32, v: Vec2): Vec2 =
   return vec2(v.x * c + v.y * s, -v.x * s + v.y * c)
 
 
-
 proc r(uv: Vec2, p: Vec3, l: Vec3, z: float32): Vec3 =
   var
     f: Vec3 = normalize(l - p)
@@ -74,7 +73,7 @@ proc mandelbulb(position: Vec3, time: float32): float32 =
 
     z = vec3(zr) * vec3(sin(theta) * cos(phi), sin(phi) * sin(theta), cos(theta))
     z += position
-  
+
   var dst: float32 = 0.5 * log(r) * r / dr
   return dst
 
@@ -105,7 +104,7 @@ proc rayMarcher(ro: Vec3, rd: Vec3, time: float32): Vec4 =
     col: Vec3 = vec3(0.0, 0.0, 0.0)
     curPos: Vec3 = ro
     hit: bool = false
-  
+
   for s in 0..<maximumRaySteps:
     steps = s.int32()
     var
@@ -116,18 +115,18 @@ proc rayMarcher(ro: Vec3, rd: Vec3, time: float32): Vec4 =
     if minDistToScene > distance:
       minDistToScene = distance
       minDistToScenePos = curPos
-    
+
     if minDistToOrigin > length(curPos):
       minDistToOrigin = length(curPos)
       minDistToOriginPos = curPos
-    
+
     totalDistance += distance
     if distance < minimumDistance:
       hit = true
       break
     elif distance > maximumDistance:
       break
-  
+
   if hit:
     col = vec3(0.8 + (length(curPos) / 0.5), 1.0, 0.8)
     col = hsv2rgb(col)
@@ -136,7 +135,7 @@ proc rayMarcher(ro: Vec3, rd: Vec3, time: float32): Vec4 =
     col = hsv2rgb(col)
     col = col * vec3(1.0 / (minDistToScene * minDistToScene))
     col = col / vec3(map(sin(time * 3.0), -1.0, 1.0, 3000.0, 50000.0))
-  
+
   col = col / vec3(steps.float32() * 0.08)
   col = col / vec3(pow(abs(length(ro) - length(minDistToScenePos)), 2.0))
   col = col * vec3(3.0)
@@ -156,7 +155,7 @@ proc fragmentShaderProc(
     ro: Vec3 = vec3(0.0, 0.0, -2.0)
     rd: Vec3 = r(uv, ro, vec3(0.0, 0.0, 1.0), (1.0).float32())
     col: Vec4 = rayMarcher(ro, rd, time)
-  
+
   gl_FragColor = col
 
 
@@ -165,7 +164,7 @@ proc play(): int =
     version = (4, 1)
     fragmentShaderText = fragmentShaderProc.toGLSL(version = "410")
     fragmentShaderUniforms = fragmentShaderProc.fetchUniforms()
-  
+
     (window, program, uniformLocations, startTime) = initialize(
       size = (500, 500),
       title = "Mandelbulb",
@@ -177,7 +176,7 @@ proc play(): int =
   echo "Initialize done."
 
   var
-    resolution: array[0..1, float32] 
+    resolution: array[0..1, float32]
     time: float32
 
   let fUniformNameToPtr = {
@@ -198,7 +197,7 @@ proc play(): int =
     )
 
     pollEvents()
-  
+
   return 0
 
 

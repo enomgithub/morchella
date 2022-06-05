@@ -19,7 +19,7 @@ proc fragmentShaderFlowerPattern(
   time: Uniform[float32],
   gl_FragColor: var Vec4
 ) =
-  let 
+  let
     p: Vec2 = (gl_FragCoord.xy * vec2(2.0, 2.0) - resolution.xy) / min(resolution.x, resolution.y)
     r = 0.01 / abs(
       0.5 +
@@ -55,15 +55,15 @@ proc fragmentShaderFlowerPattern(
   gl_FragColor = vec4(r, g, b, 1.0)
 
 
-proc getAmplitude(): array[0..2, float32] = 
+proc getAmplitude(): array[0..2, float32] =
   return [1.float32(), 10.float32(), 20.float32()]
 
 
-proc getPhase(): array[0..2, float32] = 
+proc getPhase(): array[0..2, float32] =
   return [10.float32(), 30.float32(), 50.float32()]
 
 
-proc getFrequency(): array[0..2, float32] = 
+proc getFrequency(): array[0..2, float32] =
   return [10.float32(), 30.float32(), 50.float32()]
 
 

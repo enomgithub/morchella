@@ -23,10 +23,10 @@ proc hexCoords(uv: Vec2): Vec4 =
     a: Vec2 = (uv mod r) - h
     b: Vec2 = ((uv - h) mod r) - h
 
-    gv: Vec2 = 
+    gv: Vec2 =
       if length(a) < length(b): a
       else: b
-    
+
     x = atan(gv.x, gv.y)
     y = 0.5 - hexDist(gv)
     id = uv - gv
@@ -34,7 +34,8 @@ proc hexCoords(uv: Vec2): Vec4 =
   return vec4(vec2(x, y), id)
 
 
-proc hexagonalPattern(gl_FragCoord: Vec4, resolution: Uniform[Vec2], time: Uniform[float32], gl_FragColor: var Vec4) =
+proc hexagonalPattern(gl_FragCoord: Vec4, resolution: Uniform[Vec2], time: Uniform[float32],
+    gl_FragColor: var Vec4) =
   var
     uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y)
     col = vec3(0.0)

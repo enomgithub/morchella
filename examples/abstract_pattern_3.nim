@@ -26,7 +26,7 @@ proc fragmentShaderAbstractPattern3Proc(
       clamp(floor(length(uv + vec2(1.0, -1.0)) + 0.5), 0.0, 1.0) *
       clamp(floor(length(uv + vec2(-1.0, 1.0)) + 0.5), 0.0, 1.0) *
       noise
-  var color = vec3(col, col, col) 
+  var color = vec3(col, col, col)
   gl_FragColor = vec4(color, 1.0)
 
 
@@ -35,7 +35,7 @@ proc play(): int =
     version = (4, 1)
     fragmentShaderText = fragmentShaderAbstractPattern3Proc.toGLSL(version = "410")
     fragmentShaderUniforms = fragmentShaderAbstractPattern3Proc.fetchUniforms()
-  
+
     (window, program, uniformLocations, startTime) = initialize(
       size = (500, 500),
       title = "Abstract Pattern #3",
@@ -47,7 +47,7 @@ proc play(): int =
   echo "Initialize done."
 
   var
-    resolution: array[0..1, float32] 
+    resolution: array[0..1, float32]
     time: float32
 
   let fUniformNameToPtr = {
@@ -68,7 +68,7 @@ proc play(): int =
     )
 
     pollEvents()
-  
+
   return 0
 
 

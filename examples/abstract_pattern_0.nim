@@ -26,7 +26,7 @@ proc fragmentShaderAbstractPattern0Proc(
       smin(sin(c), cos(d), sin(time)) * sin(c + d),
       smin(sin(c), cos(d), sin(time)) * sin(smin(c, d, time) + 5.0 * d),
       smin(sin(c), cos(d), sin(time)) * sin(c + d + time + 10.0 * hash12(vec2(d)))
-    ) 
+    )
   gl_FragColor = vec4(color, 1.0)
 
 
