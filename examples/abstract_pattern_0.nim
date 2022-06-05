@@ -21,7 +21,7 @@ proc fragmentShaderAbstractPattern0Proc(
     b = vec2(cos(time), sin(time)) + uv
     c = dot(vec2(hashOld12(a - vec2(hash12(b)))), uv)
     division = 3.0
-    d = length(vec3(division) * vec3(uv, 0.5) + fract3(vec3(division) * vec3(uv, 0.5)))
+    d = length(vec3(division) * vec3(uv, 0.5) + fract(vec3(division) * vec3(uv, 0.5)))
     color = vec3(
       smin(sin(c), cos(d), sin(time)) * sin(c + d),
       smin(sin(c), cos(d), sin(time)) * sin(smin(c, d, time) + 5.0 * d),
