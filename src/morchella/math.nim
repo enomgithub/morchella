@@ -6,10 +6,10 @@ import vmath
 proc atan*(a, b: float32): float32 {.importc: "atanf", header: "<math.h>".}
 
 
-proc asin*(a, b: float32): float32 {.importc: "asinf", header: "<math.h>".}
+proc asin*(a: float32): float32 {.importc: "asinf", header: "<math.h>".}
 
 
-proc acos*(a, b: float32): float32 {.importc: "acosf", header: "<math.h>".}
+proc acos*(a: float32): float32 {.importc: "acosf", header: "<math.h>".}
 
 
 # Nim has math.log, but it has two arguments x: float32, base: T.
