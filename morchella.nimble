@@ -1,5 +1,5 @@
 # Package
-version       = "0.3.0"
+version       = "0.3.2"
 author        = "Satoshi Enomoto"
 description   = "GLSL fragment shader playground"
 license       = "MIT"
