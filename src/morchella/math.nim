@@ -26,6 +26,18 @@ proc cross*(a, b: Vec3): Vec3 =
   )
 
 
+proc distance*(a, b: float32): float32 =
+  return abs(a - b)
+
+
+proc distance*(a, b: Vec2): float32 =
+  return abs(length(a) - length(b))
+
+
+proc distance*(a, b: Vec3): float32 =
+  return abs(length(a) - length(b))
+
+
 proc smin*(d1, d2, k: float32): float32 =
   var h = clamp(0.5 + 0.5 * (d2 - d1) / k, 0.0, 1.0)
   return mix(d2, d1, h) - k * h * (1.0 - h)
