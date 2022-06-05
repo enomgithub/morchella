@@ -64,16 +64,16 @@ proc fract*(x: float32): float32 =
   return x - floor(x)
 
 
-proc fract2*(x: Vec2): Vec2 =
+proc fract*(x: Vec2): Vec2 =
   return x - floor(x)
 
 
-proc fract3*(x: Vec3): Vec3 =
+proc fract*(x: Vec3): Vec3 =
   return x - floor(x)
 
 
 proc hash12*(p: Vec2): float32 =
-  var p3: Vec3 = fract3(vec3(p.xyx) * vec3(0.1031))
+  var p3: Vec3 = fract(vec3(p.xyx) * vec3(0.1031))
   p3 += vec3(dot(p3, p3.yzx + 33.33))
   return fract((p3.x + p3.y) * p3.z)
 
